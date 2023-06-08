@@ -12,9 +12,5 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  security:
-      user:
-        name: apektas
-        password: 12345
 server:
   port: 9999
