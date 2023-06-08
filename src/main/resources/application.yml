@@ -13,11 +13,8 @@ spring:
       hibernate:
         format_sql: true
   security:
-    oauth2:
-      resourceserver:
-        jwt:
-          # needed to for jwt token - remove this one and observe the issue
-          # http://localhost:8090/realms/playground/.well-known/openid-configuration
-          jwk-set-uri: http://localhost:8090/realms/playground/protocol/openid-connect/certs
+      user:
+        name: apektas
+        password: 12345
 server:
   port: 9999
