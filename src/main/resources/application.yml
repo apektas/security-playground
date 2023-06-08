@@ -19,3 +19,5 @@ spring:
           # needed to for jwt token - remove this one and observe the issue
           # http://localhost:8090/realms/playground/.well-known/openid-configuration
           jwk-set-uri: http://localhost:8090/realms/playground/protocol/openid-connect/certs
+server:
+  port: 9999
