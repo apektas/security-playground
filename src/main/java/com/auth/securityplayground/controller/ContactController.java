@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContactController {
 
     @GetMapping("/contact")
-    public String getBalance(){
-        return "My Balance";
+    public String getContacts(){
+        return "get Contacts";
     }
 
 }

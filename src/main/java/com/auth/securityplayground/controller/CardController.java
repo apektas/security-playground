@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CardController {
 
-    @GetMapping("/myCard")
+    @GetMapping("/myCards")
     public String getBalance(){
-        return "My Card";
+        return "My Cards";
     }
 
 
