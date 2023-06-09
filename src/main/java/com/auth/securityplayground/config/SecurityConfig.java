@@ -33,11 +33,6 @@ public class SecurityConfig {
     }
 
 
-    // Datasource automatically created from db settings inside application.yml
-    @Bean
-    public JdbcUserDetailsManager userDetailsManager(DataSource dataSource){
-        return new JdbcUserDetailsManager(dataSource);
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
