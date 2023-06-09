@@ -9,7 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -30,21 +33,10 @@ public class SecurityConfig {
     }
 
 
+    // Datasource automatically created from db settings inside application.yml
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager(){
-        UserDetails adminUser = User.builder()
-                .password("admin")
-                .username("admin")
-                .authorities("admin")
-                .build();
-
-        UserDetails regularUser = User.withUsername("user")
-                .password("user")
-                .authorities("read")
-                .build();
-
-        return new InMemoryUserDetailsManager(adminUser, regularUser);
-
+    public JdbcUserDetailsManager userDetailsManager(DataSource dataSource){
+        return new JdbcUserDetailsManager(dataSource);
     }
 
     @Bean

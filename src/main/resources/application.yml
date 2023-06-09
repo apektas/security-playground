@@ -1,4 +1,5 @@
 spring:
+  # provide the db settings
   datasource:
     url: jdbc:postgresql://localhost:5433/playbank
     username: db_user
