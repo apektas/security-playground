@@ -39,5 +39,9 @@ public class RegisterController {
         }
     }
 
+    @GetMapping("/register")
+    public ResponseEntity<String> test(){
+        return ResponseEntity.ok("Register");
+    }
 
 }

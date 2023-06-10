@@ -4,6 +4,7 @@ package com.auth.securityplayground.config;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,11 +47,15 @@ public class SecurityConfig {
                         return corsConfiguration;
                     }
                  }))
-                .csrf(csrf -> csrf.disable())
+                // if csrf protection disabled then post/put request will fail (401 unauthorized error)
+                //.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards").authenticated()
-                .requestMatchers("/notices", "/contact", "/register").permitAll()
-        );
+                        .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards").authenticated()
+                        //.requestMatchers(HttpMethod.OPTIONS, "/register/**").permitAll()
+                        //.requestMatchers(HttpMethod.POST, "/register/**").permitAll()
+                        .requestMatchers("/notices", "/contact", "/register").permitAll()
+
+                );
 
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
