@@ -1,41 +1,30 @@
-create table if not exists public.users
-(
-    id bigserial primary key,
-    username   varchar(50),
-    password varchar(50),
-    enabled   int not null
-    );
+ -- table creations are done via hibernate
 
-alter table public.users
-    owner to db_user;
+INSERT INTO public.customers (customer_id, name,email,mobile_number, pwd, role,create_dt)
+VALUES (nextval('customers_customer_id_seq') ,'Abdurrahman','apektas@example.com','111', '$2y$12$oRRbkNfwuR8ug4MlzH5FOeui.//1mkd.RsOAJMbykTSupVy.x/vb2', 'admin',current_timestamp);
 
 
-create table if not exists public.authorities
-(
-    id bigserial primary key,
-    username   varchar(50) not null ,
-    authority   varchar(50) not null
-);
+INSERT INTO accounts (customer_id, account_number, account_type, branch_address, create_dt)
+VALUES (1, 1865764534, 'Savings', '123 Main Street, New York', current_date);
 
-alter table public.authorities
-    owner to db_user;
+-- select * from gen_random_uuid();
 
-select * from nextval(users_id_seq);
+-- select  now()::DATE - 1;
 
-insert into public.users values (nextval('users_id_seq'), 'apektas', '12345', '1');
-INSERT INTO public.authorities VALUES (nextval('authorities_id_seq'), 'apektas', 'admin');
+INSERT INTO account_transactions (transaction_id, account_number, customer_id, transaction_dt, transaction_summary, transaction_type,transaction_amt,
+                                  closing_balance, create_dt)  VALUES (gen_random_uuid(), 1865764534, 1, now()::DATE - 1, 'Coffee Shop', 'Withdrawal', 30,34500,now()::DATE -7);
 
+INSERT INTO account_transactions (transaction_id, account_number, customer_id, transaction_dt, transaction_summary, transaction_type,transaction_amt,
+                                  closing_balance, create_dt)  VALUES (gen_random_uuid(), 1865764534, 1, now()::DATE-6, 'Uber', 'Withdrawal', 100,34400,now()::DATE -6);
 
--- custom sample table structure (above tables are no longer used in the application)
-create table if not exists public.customer
-(
-    id bigserial primary key,
-    email   varchar(250) not null ,
-    pwd   varchar(250) not null ,
-    role   varchar(50) not null
-);
+INSERT INTO account_transactions (transaction_id, account_number, customer_id, transaction_dt, transaction_summary, transaction_type,transaction_amt,
+                                  closing_balance, create_dt)  VALUES (gen_random_uuid(), 1865764534, 1, now()::DATE -5, 'Self Deposit', 'Deposit', 500,34900,now()::DATE -5);
 
-alter table public.customer
-    owner to db_user;
+INSERT INTO account_transactions (transaction_id, account_number, customer_id, transaction_dt, transaction_summary, transaction_type,transaction_amt,
+                                  closing_balance, create_dt)  VALUES (gen_random_uuid(), 1865764534, 1, now()::DATE -4, 'Ebay', 'Withdrawal', 600,34300,now()::DATE -4);
 
-insert into public.customer values (nextval('customer_id_seq'), 'apektas@sample.com', '54321', 'admin');
+INSERT INTO account_transactions (transaction_id, account_number, customer_id, transaction_dt, transaction_summary, transaction_type,transaction_amt,
+                                  closing_balance, create_dt)  VALUES (gen_random_uuid(), 1865764534, 1, now()::DATE -2, 'OnlineTransfer', 'Deposit', 700,35000,now()::DATE -2);
+
+INSERT INTO account_transactions (transaction_id, account_number, customer_id, transaction_dt, transaction_summary, transaction_type,transaction_amt,
+                                  closing_balance, create_dt)  VALUES (gen_random_uuid(), 1865764534, 1, now()::DATE -1, 'Amazon.com', 'Withdrawal', 100,34900,now()::DATE -1);

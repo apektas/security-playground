@@ -1,0 +1,3 @@
+GET /notices HTTP/1.1
+Host: localhost:9999
+Origin: http://google.com
