@@ -48,7 +48,7 @@ public class SecurityConfig {
                     }
                  }))
                 // if csrf protection disabled then post/put request will fail (401 unauthorized error)
-                //.csrf(csrf -> csrf.disable())
+                .csrf((csrf) -> csrf.ignoringRequestMatchers("/contact", "/register"))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards").authenticated()
                         //.requestMatchers(HttpMethod.OPTIONS, "/register/**").permitAll()
