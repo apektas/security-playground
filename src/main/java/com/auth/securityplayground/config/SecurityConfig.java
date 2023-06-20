@@ -1,10 +1,8 @@
 package com.auth.securityplayground.config;
 
 
-import com.auth.securityplayground.filters.AuthoritiesLoggingAfterFilter;
-import com.auth.securityplayground.filters.AuthoritiesLoggingAtFilter;
-import com.auth.securityplayground.filters.CsrfCookieFilter;
-import com.auth.securityplayground.filters.RequestValidationBeforeFilter;
+import com.auth.securityplayground.constants.SecurityConstants;
+import com.auth.securityplayground.filters.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,8 +40,8 @@ public class SecurityConfig {
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
 
-        http.securityContext((context) -> context.requireExplicitSave(false))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+        // do not create jsession id for each request
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors( corsConfigurer -> corsConfigurer.configurationSource(new CorsConfigurationSource() {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
@@ -55,7 +53,8 @@ public class SecurityConfig {
                         corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
                         corsConfiguration.setAllowCredentials(Boolean.TRUE);
                         corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
-                        corsConfiguration.setExposedHeaders(Arrays.asList("Authorization"));
+                        // define custom header with exposeHeader to expose JWT header
+                        corsConfiguration.setExposedHeaders(Arrays.asList(SecurityConstants.JWT_HEADER));
                         corsConfiguration.setMaxAge(3600L);
 
                         return corsConfiguration;
@@ -72,6 +71,7 @@ public class SecurityConfig {
                 // use before or after filter instead of at filter
                 .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
                         //.requestMatchers("/myLoans").hasAnyAuthority("VIEWLOANS")
