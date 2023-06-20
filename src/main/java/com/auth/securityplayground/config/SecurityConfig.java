@@ -2,6 +2,7 @@ package com.auth.securityplayground.config;
 
 
 import com.auth.securityplayground.filters.CsrfCookieFilter;
+import com.auth.securityplayground.filters.RequestValidationBeforeFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,6 +65,8 @@ public class SecurityConfig {
                 )
                 // execute csrf cookie filter after authentication filter
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                // add custom filter
+                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
                         //.requestMatchers("/myLoans").hasAnyAuthority("VIEWLOANS")

@@ -19,3 +19,8 @@ server:
 logging:
   level:
     root: info
+    org:
+      springframework:
+        security:
+          web:
+            FilterChainProxy: Debug
