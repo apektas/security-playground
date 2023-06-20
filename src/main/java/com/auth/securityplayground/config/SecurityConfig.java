@@ -80,7 +80,7 @@ public class SecurityConfig {
                         // we can use either Authority or Role - cannot use both
                         // NOTE: In the database roles are saved ROLE_ prefix as follows: ROLE_ADMIN, ROLE_USER
                         // however use without ROLE_
-                        .requestMatchers("/myLoans").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/myLoans").authenticated()
                         //.requestMatchers("/myCards").hasAnyAuthority("VIEWCARDS")
                         .requestMatchers("/myCards").hasRole("ADMIN")
                         .requestMatchers("/myBalance").hasAnyAuthority("VIEWACCOUNT", "VIEWBALANCE")
