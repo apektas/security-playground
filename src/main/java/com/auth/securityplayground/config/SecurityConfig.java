@@ -1,6 +1,8 @@
 package com.auth.securityplayground.config;
 
 
+import com.auth.securityplayground.filters.AuthoritiesLoggingAfterFilter;
+import com.auth.securityplayground.filters.AuthoritiesLoggingAtFilter;
 import com.auth.securityplayground.filters.CsrfCookieFilter;
 import com.auth.securityplayground.filters.RequestValidationBeforeFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -67,6 +69,9 @@ public class SecurityConfig {
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 // add custom filter
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
+                // use before or after filter instead of at filter
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
                         //.requestMatchers("/myLoans").hasAnyAuthority("VIEWLOANS")
