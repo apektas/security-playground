@@ -28,3 +28,64 @@ INSERT INTO account_transactions (transaction_id, account_number, customer_id, t
 
 INSERT INTO account_transactions (transaction_id, account_number, customer_id, transaction_dt, transaction_summary, transaction_type,transaction_amt,
                                   closing_balance, create_dt)  VALUES (gen_random_uuid(), 1865764534, 1, now()::DATE -1, 'Amazon.com', 'Withdrawal', 100,34900,now()::DATE -1);
+
+
+select current_timestamp - INTERVAL '30' DAY;
+
+ create table public.notice_details
+ (
+     notice_id      serial
+         primary key,
+     create_dt      timestamp(6) with time zone,
+     notice_beg_dt  timestamp(6) with time zone,
+     notice_details varchar(255),
+     notice_end_dt  timestamp(6) with time zone,
+     notice_summary varchar(255),
+     update_dt      timestamp(6) with time zone
+ );
+
+ alter table public.notice_details
+     owner to db_user;
+
+
+
+
+ INSERT INTO notice_details ( notice_summary, notice_details, notice_beg_dt, notice_end_dt, create_dt, update_dt)
+ VALUES ('Home Loan Interest rates reduced', 'Home loan interest rates are reduced as per the goverment guidelines. The updated rates will be effective immediately',
+         current_timestamp - INTERVAL '30' DAY, current_timestamp + INTERVAL '30' DAY, current_timestamp, null);
+
+ INSERT INTO notice_details ( notice_summary, notice_details, notice_beg_dt, notice_end_dt, create_dt, update_dt)
+ VALUES ('Net Banking Offers', 'Customers who will opt for Internet banking while opening a saving account will get a $50 amazon voucher',
+         current_timestamp - INTERVAL '30' DAY, current_timestamp + INTERVAL '30' DAY, current_timestamp, null);
+
+ INSERT INTO notice_details ( notice_summary, notice_details, notice_beg_dt, notice_end_dt, create_dt, update_dt)
+ VALUES ('Mobile App Downtime', 'The mobile application of the EazyBank will be down from 2AM-5AM on 12/05/2020 due to maintenance activities',
+         current_timestamp - INTERVAL '30' DAY, current_timestamp + INTERVAL '30' DAY, current_timestamp, null);
+
+ INSERT INTO notice_details ( notice_summary, notice_details, notice_beg_dt, notice_end_dt, create_dt, update_dt)
+ VALUES ('E Auction notice', 'There will be a e-auction on 12/08/2020 on the Bank website for all the stubborn arrears.Interested parties can participate in the e-auction',
+         current_timestamp - INTERVAL '30' DAY, current_timestamp + INTERVAL '30' DAY, current_timestamp, null);
+
+ INSERT INTO notice_details ( notice_summary, notice_details, notice_beg_dt, notice_end_dt, create_dt, update_dt)
+ VALUES ('Launch of Millennia Cards', 'Millennia Credit Cards are launched for the premium customers of EazyBank. With these cards, you will get 5% cashback for each purchase',
+         current_timestamp - INTERVAL '30' DAY, current_timestamp + INTERVAL '30' DAY, current_timestamp, null);
+
+ INSERT INTO notice_details ( notice_summary, notice_details, notice_beg_dt, notice_end_dt, create_dt, update_dt)
+ VALUES ('COVID-19 Insurance', 'EazyBank launched an insurance policy which will cover COVID-19 expenses. Please reach out to the branch for more details',
+         current_timestamp - INTERVAL '30' DAY, current_timestamp + INTERVAL '30' DAY, current_timestamp, null);
+
+
+
+ INSERT INTO authorities (customer_id, name) VALUES (1, 'VIEWACCOUNT');
+
+ INSERT INTO authorities (customer_id, name) VALUES (1, 'VIEWCARDS');
+
+ INSERT INTO authorities (customer_id, name)  VALUES (1, 'VIEWLOANS');
+
+ INSERT INTO authorities (customer_id, name) VALUES (1, 'VIEWBALANCE');
+
+-- delete  from authorities;
+
+ INSERT INTO authorities (customer_id, name) VALUES (1, 'ROLE_USER');
+
+ INSERT INTO authorities (customer_id, name) VALUES (1, 'ROLE_ADMIN');

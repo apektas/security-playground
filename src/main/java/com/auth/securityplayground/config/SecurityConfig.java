@@ -65,7 +65,16 @@ public class SecurityConfig {
                 // execute csrf cookie filter after authentication filter
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards", "/user").authenticated()
+                        .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
+                        //.requestMatchers("/myLoans").hasAnyAuthority("VIEWLOANS")
+                        // we can use either Authority or Role - cannot use both
+                        // NOTE: In the database roles are saved ROLE_ prefix as follows: ROLE_ADMIN, ROLE_USER
+                        // however use without ROLE_
+                        .requestMatchers("/myLoans").hasAnyRole("USER", "ADMIN")
+                        //.requestMatchers("/myCards").hasAnyAuthority("VIEWCARDS")
+                        .requestMatchers("/myCards").hasRole("ADMIN")
+                        .requestMatchers("/myBalance").hasAnyAuthority("VIEWACCOUNT", "VIEWBALANCE")
+                        .requestMatchers("/user").authenticated()
                         //.requestMatchers(HttpMethod.OPTIONS, "/register/**").permitAll()
                         //.requestMatchers(HttpMethod.POST, "/register/**").permitAll()
                         .requestMatchers("/notices", "/contact", "/register").permitAll()
