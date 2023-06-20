@@ -72,6 +72,8 @@ public class SecurityConfig {
                 .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
+                // execute JWT Validator before BasicAuthentication filter
+                .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
                         //.requestMatchers("/myLoans").hasAnyAuthority("VIEWLOANS")
