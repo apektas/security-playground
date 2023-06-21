@@ -13,6 +13,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt: # see config for http://localhost:8090/realms/playground/.well-known/openid-configuration
+          jwk-set-uri: http://localhost:8090/realms/playground/protocol/openid-connect/certs
+
 server:
   port: 9999
 

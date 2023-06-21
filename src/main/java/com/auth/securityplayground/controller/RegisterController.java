@@ -18,25 +18,6 @@ public class RegisterController {
 
     CustomerRepository customerRepository;
 
-    PasswordEncoder passwordEncoder;
-
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody Customer customer){
-        try {
-            String hashedPassword = passwordEncoder.encode(customer.getPwd());
-            customer.setPwd(hashedPassword);
-            Customer savedCustomer = customerRepository.save(customer);
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body("User has been saved");
-
-        }
-        catch (Exception exp){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Exception occurred " + exp.getMessage());
-        }
-    }
-
     @RequestMapping("/user")
     public Customer getUserDetailsAfterLogin(Authentication authentication) {
         List<Customer> customers = customerRepository.findByEmail(authentication.getName());

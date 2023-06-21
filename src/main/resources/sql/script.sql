@@ -89,3 +89,15 @@ select current_timestamp - INTERVAL '30' DAY;
  INSERT INTO authorities (customer_id, name) VALUES (1, 'ROLE_USER');
 
  INSERT INTO authorities (customer_id, name) VALUES (1, 'ROLE_ADMIN');
+
+
+
+ INSERT INTO cards (card_number, customer_id, card_type, total_limit, amount_used, available_amount, create_dt)
+ VALUES ('4565XXXX4656', 1, 'Credit', 10000, 500, 9500, current_timestamp);
+
+ INSERT INTO cards (card_number, customer_id, card_type, total_limit, amount_used, available_amount, create_dt)
+ VALUES ('3455XXXX8673', 1, 'Credit', 7500, 600, 6900, current_timestamp);
+
+ INSERT INTO cards (card_number, customer_id, card_type, total_limit, amount_used, available_amount, create_dt)
+ VALUES ('2359XXXX9346', 1, 'Credit', 20000, 4000, 16000, current_timestamp);
+

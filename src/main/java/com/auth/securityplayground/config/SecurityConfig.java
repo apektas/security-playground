@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -39,6 +40,9 @@ public class SecurityConfig {
 
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
+
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
 
         // do not create jsession id for each request
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -66,14 +70,6 @@ public class SecurityConfig {
                 )
                 // execute csrf cookie filter after authentication filter
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-                // add custom filter
-                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
-                // use before or after filter instead of at filter
-                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
-                // execute JWT Validator before BasicAuthentication filter
-                .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
                         //.requestMatchers("/myLoans").hasAnyAuthority("VIEWLOANS")
@@ -91,16 +87,11 @@ public class SecurityConfig {
 
                 );
 
-        http.formLogin(withDefaults());
-        http.httpBasic(withDefaults());
+        // spring boot will behave like resource server
+        http.oauth2ResourceServer(oauth2ResourceServerCustomizer ->
+                oauth2ResourceServerCustomizer.jwt(jwtCustomizer -> jwtCustomizer.jwtAuthenticationConverter(jwtAuthenticationConverter)));
         return http.build();
-    }
 
-
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 

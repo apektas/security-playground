@@ -20,9 +20,13 @@ repositories {
 
 dependencies {
 	// create resource server convert the spring boot app into resource server
-	//implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// need for github social login - uses github auth server
+	//implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
+
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 

@@ -12,9 +12,8 @@ import java.time.Instant;
 public class Card {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
-    @Column(name = "card_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "card_id", columnDefinition = "serial")
     private int cardId;
 
     @Column(name = "customer_id")
